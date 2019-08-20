@@ -1,6 +1,5 @@
 package com.joaomedeiros.spring_completo.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Category implements Serializable {
+public class State implements Serializable {
 
-    private static final long serialVersionUID = -6673657473822721929L;
+    private static final long serialVersionUID = 5133074900701362826L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,14 +21,13 @@ public class Category implements Serializable {
 
     private String name;
 
-    @JsonManagedReference
-    @ManyToMany(mappedBy = "categories")
-    private List<Product> products = new ArrayList<>();
+    @OneToMany(mappedBy = "state")
+    private List<City> cities = new ArrayList<>();
 
-    public Category() {
+    public State() {
     }
 
-    public Category(final Integer id, final String name) {
+    public State(final Integer id, final String name) {
         this.id = id;
         this.name = name;
     }
@@ -50,12 +48,12 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<City> getCities() {
+        return cities;
     }
 
-    public void setProducts(final List<Product> products) {
-        this.products = products;
+    public void setCities(final List<City> cities) {
+        this.cities = cities;
     }
 
     @Override
@@ -66,8 +64,8 @@ public class Category implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final Category category = (Category) o;
-        return Objects.equals(id, category.id);
+        final State state = (State) o;
+        return Objects.equals(id, state.id);
     }
 
     @Override

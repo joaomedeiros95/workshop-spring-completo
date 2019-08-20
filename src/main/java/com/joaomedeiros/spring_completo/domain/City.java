@@ -1,20 +1,18 @@
 package com.joaomedeiros.spring_completo.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Category implements Serializable {
+public class City implements Serializable {
 
-    private static final long serialVersionUID = -6673657473822721929L;
+    private static final long serialVersionUID = 839227975544427700L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,16 +20,17 @@ public class Category implements Serializable {
 
     private String name;
 
-    @JsonManagedReference
-    @ManyToMany(mappedBy = "categories")
-    private List<Product> products = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "state_id")
+    private State state;
 
-    public Category() {
+    public City() {
     }
 
-    public Category(final Integer id, final String name) {
+    public City(final Integer id, final String name, final State state) {
         this.id = id;
         this.name = name;
+        this.state = state;
     }
 
     public Integer getId() {
@@ -50,12 +49,12 @@ public class Category implements Serializable {
         this.name = name;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public State getState() {
+        return state;
     }
 
-    public void setProducts(final List<Product> products) {
-        this.products = products;
+    public void setState(final State state) {
+        this.state = state;
     }
 
     @Override
@@ -66,8 +65,8 @@ public class Category implements Serializable {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final Category category = (Category) o;
-        return Objects.equals(id, category.id);
+        final City city = (City) o;
+        return Objects.equals(id, city.id);
     }
 
     @Override
